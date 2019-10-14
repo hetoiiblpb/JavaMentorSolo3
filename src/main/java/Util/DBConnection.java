@@ -26,8 +26,10 @@ public class DBConnection {
                     .append("127.0.0.1:")               //host name
                     .append("3306/")                    //port
                     .append("users?serverTimezone=UTC&")//db name
+                    .append("characterEncoding=utf8&") //charset
                     .append("user=root&")               //login
                     .append("password=Qwerty3366");     //password
+
 
             System.out.println("URL: " + url.toString() + "\n");
             Connection connection = DriverManager.getConnection(url.toString());
