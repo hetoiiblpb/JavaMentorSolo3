@@ -4,16 +4,12 @@ import Model.User;
 import Util.DBConnection;
 import exception.DBException;
 
-import javax.jws.soap.SOAPBinding;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.lang.Boolean.FALSE;
-import static java.lang.Boolean.TRUE;
 
 public class UserDAO {
     private static UserDAO instance;
