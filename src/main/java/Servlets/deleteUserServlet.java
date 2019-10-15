@@ -21,11 +21,11 @@ public class deleteUserServlet extends HttpServlet {
         Long id = Long.parseLong(req.getParameter("id"));
         try {
             User user = userService.getUserById(id);
-            req.setAttribute("id",id);
+            req.setAttribute("id", id);
             req.setAttribute("name", user.getName());
             req.setAttribute("mail", user.getEmail());
             req.setAttribute("age", user.getAge());
-            req.getRequestDispatcher("deleteUser.jsp").forward(req,resp);
+            req.getRequestDispatcher("deleteUser.jsp").forward(req, resp);
         } catch (DBException e) {
             e.printStackTrace();
         }
@@ -42,8 +42,7 @@ public class deleteUserServlet extends HttpServlet {
                 resp.sendRedirect("/allUsers");
             }
 
-        }
-        catch (DBException e) {
+        } catch (DBException e) {
             e.printStackTrace();
         }
     }

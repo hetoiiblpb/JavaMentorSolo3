@@ -15,6 +15,7 @@ import java.io.IOException;
 @WebServlet("/addUser")
 public class addUserServlet extends HttpServlet {
     UserService userService = UserService.getInstance();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -24,16 +25,18 @@ public class addUserServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+            throws IOException {
         req.setCharacterEncoding("Utf-8");
-        System.out.println(req.getCharacterEncoding());
         String name = req.getParameter("name");
         String mail = req.getParameter("mail");
-        System.out.println(name);
         Long age = Long.parseLong(req.getParameter("age"));
         try {
-            if (userService.addUser(new User(name,mail,age))) {
-                resp.setStatus(HttpServletResponse.SC_OK);
+            if (!userService.checkUserByEmail(mail)) {
+                if (userService.addUser(new User(name, mail, age))) {
+                    resp.setStatus(HttpServletResponse.SC_OK);
+                    resp.sendRedirect("/allUsers");
+                }
+            } else {
                 resp.sendRedirect("/allUsers");
             }
         } catch (DBException e) {

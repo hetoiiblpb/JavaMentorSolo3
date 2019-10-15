@@ -2,11 +2,8 @@ package Servlets;
 
 import Model.User;
 import Service.UserService;
-import com.sun.corba.se.spi.protocol.RequestDispatcherRegistry;
 import exception.DBException;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,8 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-
 
 
 @WebServlet("/allUsers")

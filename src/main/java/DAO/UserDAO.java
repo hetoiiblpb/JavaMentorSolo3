@@ -12,6 +12,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
+
 public class UserDAO {
     private static UserDAO instance;
     private static Connection connection;
@@ -31,11 +34,11 @@ public class UserDAO {
         List<User> users = new ArrayList<>();
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM users");
         ResultSet result = statement.executeQuery();
-        while (result.next()){
+        while (result.next()) {
             users.add(new User(result.getLong("id"),
-                               result.getString("name"),
-                               result.getString("mail"),
-                               result.getLong("age")));
+                    result.getString("name"),
+                    result.getString("mail"),
+                    result.getLong("age")));
         }
         statement.close();
         return users;
@@ -44,12 +47,10 @@ public class UserDAO {
     public boolean addUser(User user) throws SQLException {
         String stat = "INSERT INTO users.users (name,  mail, age) values (?,?,?)";
         PreparedStatement statement = connection.prepareStatement(stat);
-        statement.setString(1,user.getName());
-        statement.setString(2,user.getEmail());
-        statement.setLong(3,user.getAge());
+        statement.setString(1, user.getName());
+        statement.setString(2, user.getEmail());
+        statement.setLong(3, user.getAge());
         if (statement.executeUpdate() != 0) {
-            System.out.println(statement.toString());
-            System.out.println(user.getName());
             statement.close();
             return true;
         }
@@ -59,7 +60,7 @@ public class UserDAO {
 
     public boolean deleteUser(Long id) throws SQLException {
         PreparedStatement statement = connection.prepareStatement("DELETE FROM users.users where id = ?");
-        statement.setLong(1,id);
+        statement.setLong(1, id);
         if (statement.executeUpdate() != 0) {
             statement.close();
             return true;
@@ -70,7 +71,7 @@ public class UserDAO {
 
     public User getUserById(Long id) throws SQLException, DBException {
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM users.users where id = ?");
-        statement.setLong(1,id);
+        statement.setLong(1, id);
         ResultSet resultSet = statement.executeQuery();
         resultSet.next();
         User user = new User(resultSet.getLong("id"),
@@ -83,10 +84,10 @@ public class UserDAO {
 
     public boolean updateUser(User user) throws SQLException {
         PreparedStatement statement = connection.prepareStatement("UPDATE users set name = ?, mail = ?, age = ? WHERE id = ? ");
-        statement.setString(1,user.getName());
-        statement.setString(2,user.getEmail());
-        statement.setLong(3,user.getAge());
-        statement.setLong(4,user.getId());
+        statement.setString(1, user.getName());
+        statement.setString(2, user.getEmail());
+        statement.setLong(3, user.getAge());
+        statement.setLong(4, user.getId());
         if (statement.executeUpdate() != 0) {
             statement.close();
             return true;
@@ -95,14 +96,13 @@ public class UserDAO {
         return false;
     }
 
-    public  boolean checkUserByEmail(String email) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement("EXISTS mail = ?");
-        statement.setString(1,email);
-        return statement.execute();
+    public boolean checkUserByEmail(String email) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM users.users WHERE mail = ?");
+        statement.setString(1, email);
+        boolean res = statement.executeQuery().next();
+        statement.close();
+        return res;
     }
-
-
-
 
 
 }

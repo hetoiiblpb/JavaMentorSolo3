@@ -12,7 +12,7 @@ import java.util.List;
 public class UserService {
     private static UserService instance;
 
-    public static UserService getInstance(){
+    public static UserService getInstance() {
         if (instance == null) {
             instance = new UserService();
         }
@@ -31,13 +31,13 @@ public class UserService {
     public boolean addUser(User user) throws DBException {
         try {
 //        if ( getUserDAO().checkUserByEmail(user.getEmail()))
-        return getUserDAO().addUser(user);
+            return getUserDAO().addUser(user);
         } catch (SQLException e) {
             throw new DBException(e);
         }
     }
 
-    public boolean deleteUser(Long id) throws DBException{
+    public boolean deleteUser(Long id) throws DBException {
         try {
             return getUserDAO().deleteUser(id);
         } catch (SQLException e) {
@@ -45,7 +45,7 @@ public class UserService {
         }
     }
 
-    public boolean updateUser(User user) throws DBException{
+    public boolean updateUser(User user) throws DBException {
         try {
             return getUserDAO().updateUser(user);
         } catch (SQLException e) {
@@ -53,7 +53,7 @@ public class UserService {
         }
     }
 
-    public User getUserById(Long id) throws DBException{
+    public User getUserById(Long id) throws DBException {
         try {
             return getUserDAO().getUserById(id);
         } catch (SQLException e) {
@@ -73,8 +73,16 @@ public class UserService {
         stmt.close();
     }
 
+    public boolean checkUserByEmail(String mail) throws DBException {
+        try {
+            return getUserDAO().checkUserByEmail(mail);
+        } catch (SQLException e) {
+            throw new DBException(e);
+        }
+    }
 
-    private static UserDAO getUserDAO(){
+
+    private static UserDAO getUserDAO() {
         return UserDAO.getInstance();
     }
 }

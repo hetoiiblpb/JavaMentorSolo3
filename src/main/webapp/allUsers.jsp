@@ -35,6 +35,7 @@
         </tr>
     </c:forEach>
 </table>
+${error}
 <br>
 <form action = "/addUser" method="get">
     <input type="submit" value="Добавить нового пользователя">
