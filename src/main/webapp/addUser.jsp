@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
-    <title>Solo1-registration</title>
+    <title>Solo2-registration</title>
 </head>
 <body>
 <form action="/addUser" method="post">
