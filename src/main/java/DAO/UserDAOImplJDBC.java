@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDAOImplJDBC {
+public class UserDAOImplJDBC implements UserDAO {
     private static UserDAOImplJDBC instance;
     private static Connection connection;
 
@@ -23,7 +23,7 @@ public class UserDAOImplJDBC {
         return instance;
     }
 
-    public List<User> getAllUsers() throws SQLException, DBException {
+    public List<User> getAllUsers() throws SQLException{
         List<User> users = new ArrayList<>();
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM users");
         ResultSet result = statement.executeQuery();

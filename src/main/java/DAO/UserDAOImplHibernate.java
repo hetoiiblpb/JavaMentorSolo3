@@ -2,7 +2,6 @@ package DAO;
 
 import Model.User;
 import Util.DBConnection;
-import exception.DBException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -11,7 +10,7 @@ import org.hibernate.query.Query;
 import java.sql.SQLException;
 import java.util.List;
 
-public class UserDAOImplHibernate {
+public class UserDAOImplHibernate implements UserDAO {
     private static UserDAOImplHibernate instance;
     private static SessionFactory sessionFactory;
 
@@ -27,7 +26,7 @@ public class UserDAOImplHibernate {
     }
 
 
-    public List<User> getAllUsers() throws SQLException, DBException {
+    public List<User> getAllUsers() throws SQLException{
         List<User> users;
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
@@ -47,7 +46,7 @@ public class UserDAOImplHibernate {
         return true;
     }
 
-    public boolean deleteUser(Long id) throws SQLException, DBException {
+    public boolean deleteUser(Long id) throws SQLException {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.delete(getUserById(id));
@@ -56,7 +55,7 @@ public class UserDAOImplHibernate {
         return true;
     }
 
-    public User getUserById(Long id) throws SQLException, DBException {
+    public User getUserById(Long id) throws SQLException{
         User user;
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
@@ -77,7 +76,7 @@ public class UserDAOImplHibernate {
         return true;
     }
 
-    public boolean checkUserByEmail(String email) throws SQLException {     //Проверка наличия user с таким email
+    public boolean checkUserByEmail(String email) throws SQLException {     //Проверка на отсутствие user с таким email
         boolean exist;
         Session session =sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();

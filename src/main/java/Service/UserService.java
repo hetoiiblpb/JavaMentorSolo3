@@ -1,11 +1,12 @@
 package Service;
 
-import DAO.UserDAOImplHibernate;
 import Model.User;
 import exception.DBException;
 
 import java.sql.SQLException;
 import java.util.List;
+
+import static DAO.UserDAOFactory.getUserDAO;
 
 public class UserService {
     private static UserService instance;
@@ -16,7 +17,6 @@ public class UserService {
         }
         return instance;
     }
-
 
     public List<User> getAllUsers() throws DBException {
         try {
@@ -72,7 +72,7 @@ public class UserService {
     }
 
 
-    private static UserDAOImplHibernate getUserDAO() {
-        return UserDAOImplHibernate.getInstance();
-    }
+//    private static UserDAOImplHibernate getUserDAO() {
+//        return UserDAOImplHibernate.getInstance();
+//    }
 }
