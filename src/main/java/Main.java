@@ -1,5 +1,6 @@
 import Model.User;
 import Service.UserService;
+import Util.ConfigReader;
 import exception.DBException;
 
 import java.sql.SQLException;
@@ -12,9 +13,14 @@ public class Main {
 
     public static void main(String[] args) throws DBException, SQLException {   //Метод только для теста
         UserService userService = UserService.getInstance();
+        if (args.length != 0) {
+            ConfigReader.getInstance().setDriver(args[0].toLowerCase());
+        } else {
+            ConfigReader.getInstance().getDriver();
+        }
         dropTable();
         createTable();
-        userService.addUser(new User("DarthAxis", "mail", 32L));
+        userService.addUser(new User("DartAxis", "mail", 32L));
         userService.addUser(new User("Kostya", "mail@ghb.ru", 29L));
         userService.addUser(new User("РусскоеИмя", "maiaxl1", 15L));
         userService.addUser(new User("Другое", "another@smail.ru", 16L));
