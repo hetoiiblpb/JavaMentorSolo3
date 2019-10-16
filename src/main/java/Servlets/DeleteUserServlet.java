@@ -13,7 +13,7 @@ import java.io.IOException;
 
 
 @WebServlet("/deleteUser")
-public class deleteUserServlet extends HttpServlet {
+public class DeleteUserServlet extends HttpServlet {
     UserService userService = UserService.getInstance();
 
     @Override

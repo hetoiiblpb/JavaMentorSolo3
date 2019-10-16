@@ -13,12 +13,11 @@ import java.io.IOException;
 
 
 @WebServlet("/updateUser")
-public class updateUserServlet extends HttpServlet {
+public class UpdateUserServlet extends HttpServlet {
     UserService userService = UserService.getInstance();
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("Utf-8");
         try {
             Long id = Long.parseLong(req.getParameter("id"));

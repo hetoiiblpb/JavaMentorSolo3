@@ -6,11 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="JavaMentorSolo1" />
+        <module name="JavaMentorSolo2" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8">
-      <module name="JavaMentorSolo1" target="1.8" />
+      <module name="JavaMentorSolo2" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

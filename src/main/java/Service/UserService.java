@@ -1,12 +1,10 @@
 package Service;
 
-import DAO.UserDAO;
+import DAO.UserDAOImplJDBC;
 import Model.User;
-import Util.DBConnection;
 import exception.DBException;
 
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
 public class UserService {
@@ -30,11 +28,13 @@ public class UserService {
 
     public boolean addUser(User user) throws DBException {
         try {
-//        if ( getUserDAO().checkUserByEmail(user.getEmail()))
+        if ( getUserDAO().checkUserByEmail(user.getEmail())) {
             return getUserDAO().addUser(user);
+        }
         } catch (SQLException e) {
             throw new DBException(e);
         }
+        return false;
     }
 
     public boolean deleteUser(Long id) throws DBException {
@@ -61,17 +61,7 @@ public class UserService {
         }
     }
 
-    public void dropTable() throws SQLException {
-        Statement stmt = DBConnection.getConnection().createStatement();
-        stmt.executeUpdate("TRUNCATE TABLE users");
-        stmt.close();
-    }
 
-    public void createTable() throws SQLException {
-        Statement stmt = DBConnection.getConnection().createStatement();
-        stmt.execute("create table if not exists users (id bigint auto_increment, name varchar(32), mail varchar(128), age bigint, primary key (id))");
-        stmt.close();
-    }
 
     public boolean checkUserByEmail(String mail) throws DBException {
         try {
@@ -82,7 +72,7 @@ public class UserService {
     }
 
 
-    private static UserDAO getUserDAO() {
-        return UserDAO.getInstance();
+    private static UserDAOImplJDBC getUserDAO() {
+        return UserDAOImplJDBC.getInstance();
     }
 }

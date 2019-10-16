@@ -29,8 +29,6 @@ public class DBConnection {
                     .append("characterEncoding=utf8&") //charset
                     .append("user=root&")               //login
                     .append("password=Qwerty3366");     //password
-
-
             System.out.println("URL: " + url.toString() + "\n");
             Connection connection = DriverManager.getConnection(url.toString());
             return connection;
