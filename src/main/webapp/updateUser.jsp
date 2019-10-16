@@ -15,15 +15,15 @@
             <td>${id}</td>
         </tr>
         <tr>
-            <td align="right">Name:</td>
-            <td><input type="text" name="name" value="${name}"></td>
+            <td align="right">Имя:</td>
+            <td><input type="text" name="name" value="${name}" placeholder="${name}"></td>
         </tr>
         <tr>
             <td align="right">E-mail:</td>
             <td><input type="text" name="mail" value="${mail}"></td>
         </tr>
         <tr>
-            <td align="right">Age:</td>
+            <td align="right">Возраст:</td>
             <td><input type="text" name="age" value="${age}"></td>
         </tr>
 

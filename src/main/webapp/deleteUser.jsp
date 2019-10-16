@@ -15,7 +15,7 @@
             <td>${id}</td>
         </tr>
         <tr>
-            <td align="right">Name:</td>
+            <td align="right">Имя:</td>
             <td>${name}</td>
         </tr>
         <tr>
@@ -23,7 +23,7 @@
             <td>${mail}</td>
         </tr>
         <tr>
-            <td align="right">Age:</td>
+            <td align="right">Возраст:</td>
             <td>${age}</td>
         </tr>
 

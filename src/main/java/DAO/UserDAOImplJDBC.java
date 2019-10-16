@@ -23,6 +23,7 @@ public class UserDAOImplJDBC implements UserDAO {
         return instance;
     }
 
+    @Override
     public List<User> getAllUsers() throws SQLException{
         List<User> users = new ArrayList<>();
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM users");
@@ -37,6 +38,7 @@ public class UserDAOImplJDBC implements UserDAO {
         return users;
     }
 
+    @Override
     public boolean addUser(User user) throws SQLException {
         String stat = "INSERT INTO users.users (name,  mail, age) values (?,?,?)";
         PreparedStatement statement = connection.prepareStatement(stat);
@@ -62,6 +64,7 @@ public class UserDAOImplJDBC implements UserDAO {
         return false;
     }
 
+    @Override
     public User getUserById(Long id) throws SQLException, DBException {
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM users.users where id = ?");
         statement.setLong(1, id);
@@ -75,6 +78,7 @@ public class UserDAOImplJDBC implements UserDAO {
         return user;
     }
 
+    @Override
     public boolean updateUser(User user) throws SQLException {
         PreparedStatement statement = connection.prepareStatement("UPDATE users set name = ?, mail = ?, age = ? WHERE id = ? ");
         statement.setString(1, user.getName());
@@ -89,6 +93,7 @@ public class UserDAOImplJDBC implements UserDAO {
         return false;
     }
 
+    @Override
     public boolean checkUserByEmail(String email) throws SQLException {
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM users.users WHERE mail = ?");
         statement.setString(1, email);

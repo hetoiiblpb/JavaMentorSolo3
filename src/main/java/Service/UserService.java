@@ -71,8 +71,4 @@ public class UserService {
         }
     }
 
-
-//    private static UserDAOImplHibernate getUserDAO() {
-//        return UserDAOImplHibernate.getInstance();
-//    }
 }

@@ -20,12 +20,12 @@ public class UserDAOImplHibernate implements UserDAO {
 
     public static UserDAOImplHibernate getInstance() {
         if (instance == null) {
-            instance = new UserDAOImplHibernate(DBConnection.getSessionFactory());
+            instance = new UserDAOImplHibernate(DBConnection.getInstance().getSessionFactory());
         }
         return instance;
     }
 
-
+    @Override
     public List<User> getAllUsers() throws SQLException{
         List<User> users;
         Session session = sessionFactory.openSession();
@@ -37,6 +37,7 @@ public class UserDAOImplHibernate implements UserDAO {
         return users;
     }
 
+    @Override
     public boolean addUser(User user) throws SQLException {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
@@ -46,6 +47,7 @@ public class UserDAOImplHibernate implements UserDAO {
         return true;
     }
 
+    @Override
     public boolean deleteUser(Long id) throws SQLException {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
@@ -55,6 +57,7 @@ public class UserDAOImplHibernate implements UserDAO {
         return true;
     }
 
+    @Override
     public User getUserById(Long id) throws SQLException{
         User user;
         Session session = sessionFactory.openSession();
@@ -67,6 +70,7 @@ public class UserDAOImplHibernate implements UserDAO {
         return user;
     }
 
+    @Override
     public boolean updateUser(User user) throws SQLException {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
@@ -76,6 +80,7 @@ public class UserDAOImplHibernate implements UserDAO {
         return true;
     }
 
+    @Override
     public boolean checkUserByEmail(String email) throws SQLException {     //Проверка на отсутствие user с таким email
         boolean exist;
         Session session =sessionFactory.openSession();
@@ -87,6 +92,5 @@ public class UserDAOImplHibernate implements UserDAO {
         session.close();
         return exist;
     }
-
 
 }

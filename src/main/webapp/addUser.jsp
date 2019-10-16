@@ -5,11 +5,21 @@
     <title>Solo2-registration</title>
 </head>
 <body>
+<h1>Добавление пользователя</h1>
 <form action="/addUser" method="post">
     <table style=" width: 10%; border: 4px double black;">
-        <tr><td>Name </td> <td><input name="name" type="text" /></td></tr>
-        <tr><td> E-mail </td> <td> <input name="mail" type="text"/></td></tr>
-        <tr><td> age </td> <td> <input name="age" type="text"/></td></tr>
+        <tr>
+            <td>Имя</td>
+            <td><input name="name" type="text" value="${name}"/></td>
+        </tr>
+        <tr>
+            <td> E-mail</td>
+            <td><input name="mail" type="text" value="${mail}"/></td>
+        </tr>
+        <tr>
+            <td> Возраст</td>
+            <td><input name="age" type="text" placeholder="${message}"/></td>
+        </tr>
         <tr><td><input type="submit" value="Добавить"></td></tr>
     </table>
 </form>

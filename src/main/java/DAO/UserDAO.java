@@ -7,9 +7,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface UserDAO {
-    public static UserDAO getUserDAO() {
-        return null;
-    }
 
     List<User> getAllUsers() throws SQLException;
 

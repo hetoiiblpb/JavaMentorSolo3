@@ -12,10 +12,63 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
-    private static final String hibernate_show_sql = "true";
-    private static final String hibernate_hbm2ddl_auto = "validate";
+    private static DBConnection instance;
     private static SessionFactory sessionFactory;
     private static Connection connection;
+
+    private DBConnection() {
+    }
+
+    private static Connection getMysqlConnection() {
+        try {
+            DriverManager.registerDriver((Driver) Class.forName(ConfigReader.getInstance().getDriverClass()).newInstance());
+
+            StringBuilder url = new StringBuilder();
+
+            url.
+                    append(ConfigReader.getInstance().getUrl())                             //url and DB name
+                    .append("?serverTimezone=").append(ConfigReader.getInstance().getServerTimeZone())     //serverTimeZone
+                    .append("&characterEncoding=").append(ConfigReader.getInstance().getCharacterEncoding())  //CharSet
+                    .append("&user=").append(ConfigReader.getInstance().getUserName())           //UserName
+                    .append("&password=").append(ConfigReader.getInstance().getPassword());          //Password
+            System.out.println("URL: " + url.toString() + "\n");
+            Connection connection = DriverManager.getConnection(url.toString());
+            return connection;
+        } catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new IllegalStateException();
+        }
+    }
+
+        @SuppressWarnings("UnusedDeclaration")
+        private static Configuration getMySqlConfiguration() {
+            Configuration configuration = new Configuration();
+            configuration.addAnnotatedClass(User.class);
+            configuration.setProperty("hibernate.dialect", ConfigReader.getInstance().getHibernateDialect());
+            configuration.setProperty("hibernate.connection.driver_class", ConfigReader.getInstance().getDriverClass());
+            configuration.setProperty("hibernate.connection.characterEncoding", ConfigReader.getInstance().getCharacterEncoding());
+            configuration.setProperty("hibernate.connection.url", ConfigReader.getInstance().getUrl());
+            configuration.setProperty("hibernate.connection.username", ConfigReader.getInstance().getUserName());
+            configuration.setProperty("hibernate.connection.password", ConfigReader.getInstance().getPassword());
+            configuration.setProperty("hibernate.show_sql", ConfigReader.getInstance().getHibernateShowSql());
+            configuration.setProperty("hibernate.hbm2ddl.auto", ConfigReader.getInstance().getHibernateHbm2ddlAuto());
+            return configuration;
+        }
+
+        private static SessionFactory createSessionFactory() {
+            Configuration configuration = getMySqlConfiguration();
+            StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder();
+            builder.applySettings(configuration.getProperties());
+            ServiceRegistry serviceRegistry = builder.build();
+            return configuration.buildSessionFactory(serviceRegistry);
+        }
+
+    public static DBConnection getInstance() {
+        if (instance == null) {
+            instance = new DBConnection();
+        }
+        return instance;
+    }
 
     public static Connection getConnection() {
         if (connection == null) {
@@ -30,52 +83,4 @@ public class DBConnection {
         }
         return sessionFactory;
     }
-
-    public static Connection getMysqlConnection() {
-        try {
-            DriverManager.registerDriver((Driver) Class.forName("com.mysql.cj.jdbc.Driver").newInstance());
-
-            StringBuilder url = new StringBuilder();
-
-            url.
-                    append("jdbc:mysql://")             //db type
-                    .append("127.0.0.1:")               //host name
-                    .append("3306/")                    //port
-                    .append("users?serverTimezone=UTC&")//db name
-                    .append("characterEncoding=utf8&") //charset
-                    .append("user=root&")               //login
-                    .append("password=Qwerty3366");     //password
-            System.out.println("URL: " + url.toString() + "\n");
-            Connection connection = DriverManager.getConnection(url.toString());
-            return connection;
-        } catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-            e.printStackTrace();
-            throw new IllegalStateException();
-        }
-    }
-
-        @SuppressWarnings("UnusedDeclaration")
-        private static Configuration getMySqlConfiguration() {
-            Configuration configuration = new Configuration();
-            configuration.addAnnotatedClass(User.class);
-            configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL57Dialect");
-            configuration.setProperty("hibernate.connection.driver_class", "com.mysql.cj.jdbc.Driver");
-            configuration.setProperty("hibernate.connection.characterEncoding","utf8");
-            configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/users");
-            configuration.setProperty("hibernate.connection.username", "root");
-            configuration.setProperty("hibernate.connection.password", "Qwerty3366");
-            configuration.setProperty("hibernate.show_sql", hibernate_show_sql);
-            configuration.setProperty("hibernate.hbm2ddl.auto", hibernate_hbm2ddl_auto);
-            return configuration;
-        }
-
-        private static SessionFactory createSessionFactory() {
-            Configuration configuration = getMySqlConfiguration();
-            StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder();
-            builder.applySettings(configuration.getProperties());
-            ServiceRegistry serviceRegistry = builder.build();
-            return configuration.buildSessionFactory(serviceRegistry);
-        }
-
-
 }

@@ -8,7 +8,6 @@
     <title>Solo2-AllUsers</title>
 </head>
 <body>
-
 <table style=" width: 10%; border: 4px double black;">
     <tr style="border-bottom: 2px solid black">
         <td style="border-bottom: 2px solid black">Id</td>

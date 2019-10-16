@@ -1,14 +1,15 @@
 package DAO;
 
+import Util.ConfigReader;
+
 public class UserDAOFactory {
-    static String driver = "Hibernate";
+
     public static UserDAO getUserDAO(){
+        String driver = ConfigReader.getInstance().getDriver();
         if (driver.equals("Hibernate")) {
             return UserDAOImplHibernate.getInstance();
-        }
-        if (driver.equals("JDBC")){
+        } else {
             return UserDAOImplJDBC.getInstance();
         }
-        return null;
     }
 }
