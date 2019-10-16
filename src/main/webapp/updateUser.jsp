@@ -24,7 +24,7 @@
         </tr>
         <tr>
             <td align="right">Возраст:</td>
-            <td><input type="text" name="age" value="${age}"></td>
+            <td><input type="text" name="age" value="${age}" placeholder="Необходимо число"></td>
         </tr>
 
     </table>

@@ -32,6 +32,10 @@ public class ConfigReader {
         return driver;
     }
 
+    public void setDriver(String driver) {
+        this.driver = driver;
+    }
+
     public String getHibernateDialect() {
         return hibernateDialect;
     }

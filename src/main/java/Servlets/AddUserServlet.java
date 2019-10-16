@@ -30,7 +30,7 @@ public class AddUserServlet extends HttpServlet {
         String name = req.getParameter("name");
         String mail = req.getParameter("mail");
         try {
-            Long age = Long.parseLong(req.getParameter("age"));
+            Long age = Math.abs(Long.parseLong(req.getParameter("age")));
             if (userService.addUser(new User(name,mail,age))) {
                 resp.setStatus(HttpServletResponse.SC_OK);
                 resp.sendRedirect("/allUsers");
