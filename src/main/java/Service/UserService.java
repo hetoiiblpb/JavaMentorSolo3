@@ -1,6 +1,6 @@
 package Service;
 
-import DAO.UserDAOImplJDBC;
+import DAO.UserDAOImplHibernate;
 import Model.User;
 import exception.DBException;
 
@@ -72,7 +72,7 @@ public class UserService {
     }
 
 
-    private static UserDAOImplJDBC getUserDAO() {
-        return UserDAOImplJDBC.getInstance();
+    private static UserDAOImplHibernate getUserDAO() {
+        return UserDAOImplHibernate.getInstance();
     }
 }

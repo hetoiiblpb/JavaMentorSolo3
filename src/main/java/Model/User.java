@@ -1,13 +1,24 @@
 package Model;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name = "users")
 public class User {
+
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "mail")
     private String email;
+
+    @Column(name = "age")
     private Long age;
 
     public User() {
