@@ -6,6 +6,7 @@
 </head>
 <body>
 <h1>Добавление пользователя</h1>
+<h5 style="color: red">${message1} </h5>
 <form action="/addUser" method="post">
     <table style=" width: 10%; border: 4px double black;">
         <tr>
@@ -18,9 +19,11 @@
         </tr>
         <tr>
             <td> Возраст</td>
-            <td><input name="age" type="text" placeholder="${message}"/></td>
+            <td><input name="age" type="text" placeholder="${message}" value="${age}"/></td>
         </tr>
-        <tr><td><input type="submit" value="Добавить"></td></tr>
+        <tr>
+            <td><input type="submit" value="Добавить"></td>
+        </tr>
     </table>
 </form>
 <form action="/allUsers" method="get"><input type="submit" value="Отмена"></form>

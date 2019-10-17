@@ -18,6 +18,6 @@ public interface UserDAO {
 
     boolean updateUser(User user) throws SQLException;
 
-    User getUserById(Long id) throws SQLException,DBException;
+    User getUserById(Long id) throws SQLException, DBException;
 
 }

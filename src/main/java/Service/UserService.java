@@ -27,10 +27,13 @@ public class UserService {
     }
 
     public boolean addUser(User user) throws DBException {
-        try {
-        if ( getUserDAO().checkUserByEmail(user.getEmail())) {
-            return getUserDAO().addUser(user);
+        if (user.getEmail().isEmpty() || user.getName().isEmpty()) {
+            return false;
         }
+        try {
+            if (getUserDAO().checkUserByEmail(user.getEmail())) {
+                return getUserDAO().addUser(user);
+            }
         } catch (SQLException e) {
             throw new DBException(e);
         }
@@ -46,6 +49,9 @@ public class UserService {
     }
 
     public boolean updateUser(User user) throws DBException {
+        if (user.getEmail().isEmpty() || user.getName().isEmpty()) {
+            return false;
+        }
         try {
             return getUserDAO().updateUser(user);
         } catch (SQLException e) {
@@ -60,7 +66,6 @@ public class UserService {
             throw new DBException(e);
         }
     }
-
 
 
     public boolean checkUserByEmail(String mail) throws DBException {

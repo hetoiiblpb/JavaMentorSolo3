@@ -31,6 +31,13 @@ public class UpdateUserServlet extends HttpServlet {
             if (userService.updateUser(new User(id, name, mail, age))) {
                 resp.setStatus(HttpServletResponse.SC_OK);
                 resp.sendRedirect("/allUsers");
+            } else {
+                req.setAttribute("name", name);
+                req.setAttribute("mail", mail);
+                req.setAttribute("age", age);
+                req.setAttribute("id", id);
+                req.setAttribute("message1", "Не оставляйте пустых полей!");
+                req.getRequestDispatcher("updateUser.jsp").forward(req, resp);
             }
         } catch (DBException e) {
             e.printStackTrace();

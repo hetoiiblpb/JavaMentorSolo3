@@ -7,7 +7,7 @@
 <body>
 
 Редактировать пользователя
-
+<h5 style="color: red">${message1} </h5>
 <form action="/updateUser" method="post">
     <table border="2">
         <tr>
@@ -16,7 +16,7 @@
         </tr>
         <tr>
             <td align="right">Имя:</td>
-            <td><input type="text" name="name" value="${name}" placeholder="${name}"></td>
+            <td><input type="text" name="name" value="${name}"></td>
         </tr>
         <tr>
             <td align="right">E-mail:</td>

@@ -31,16 +31,20 @@ public class AddUserServlet extends HttpServlet {
         String mail = req.getParameter("mail");
         try {
             Long age = Math.abs(Long.parseLong(req.getParameter("age")));
-            if (userService.addUser(new User(name,mail,age))) {
+            if (userService.addUser(new User(name, mail, age))) {
                 resp.setStatus(HttpServletResponse.SC_OK);
                 resp.sendRedirect("/allUsers");
             } else {
-                resp.sendRedirect("/allUsers");
+                req.setAttribute("name", name);
+                req.setAttribute("mail", mail);
+                req.setAttribute("age", age);
+                req.setAttribute("message1", "Не оставляйте пустых полей!");
+                req.getRequestDispatcher("addUser.jsp").forward(req, resp);
             }
         } catch (DBException e) {
             e.printStackTrace();
         } catch (NumberFormatException e) {
-
+            req.setAttribute("message1", "Не оставляйте пустых полей!");
             req.setAttribute("name", name);
             req.setAttribute("mail", mail);
             req.setAttribute("message", "Требуется число");
@@ -49,6 +53,6 @@ public class AddUserServlet extends HttpServlet {
     }
 
 
-    }
+}
 
 

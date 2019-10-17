@@ -40,28 +40,28 @@ public class DBConnection {
         }
     }
 
-        @SuppressWarnings("UnusedDeclaration")
-        private static Configuration getMySqlConfiguration() {
-            Configuration configuration = new Configuration();
-            configuration.addAnnotatedClass(User.class);
-            configuration.setProperty("hibernate.dialect", ConfigReader.getInstance().getHibernateDialect());
-            configuration.setProperty("hibernate.connection.driver_class", ConfigReader.getInstance().getDriverClass());
-            configuration.setProperty("hibernate.connection.characterEncoding", ConfigReader.getInstance().getCharacterEncoding());
-            configuration.setProperty("hibernate.connection.url", ConfigReader.getInstance().getUrl());
-            configuration.setProperty("hibernate.connection.username", ConfigReader.getInstance().getUserName());
-            configuration.setProperty("hibernate.connection.password", ConfigReader.getInstance().getPassword());
-            configuration.setProperty("hibernate.show_sql", ConfigReader.getInstance().getHibernateShowSql());
-            configuration.setProperty("hibernate.hbm2ddl.auto", ConfigReader.getInstance().getHibernateHbm2ddlAuto());
-            return configuration;
-        }
+    @SuppressWarnings("UnusedDeclaration")
+    private static Configuration getMySqlConfiguration() {
+        Configuration configuration = new Configuration();
+        configuration.addAnnotatedClass(User.class);
+        configuration.setProperty("hibernate.dialect", ConfigReader.getInstance().getHibernateDialect());
+        configuration.setProperty("hibernate.connection.driver_class", ConfigReader.getInstance().getDriverClass());
+        configuration.setProperty("hibernate.connection.characterEncoding", ConfigReader.getInstance().getCharacterEncoding());
+        configuration.setProperty("hibernate.connection.url", ConfigReader.getInstance().getUrl());
+        configuration.setProperty("hibernate.connection.username", ConfigReader.getInstance().getUserName());
+        configuration.setProperty("hibernate.connection.password", ConfigReader.getInstance().getPassword());
+        configuration.setProperty("hibernate.show_sql", ConfigReader.getInstance().getHibernateShowSql());
+        configuration.setProperty("hibernate.hbm2ddl.auto", ConfigReader.getInstance().getHibernateHbm2ddlAuto());
+        return configuration;
+    }
 
-        private static SessionFactory createSessionFactory() {
-            Configuration configuration = getMySqlConfiguration();
-            StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder();
-            builder.applySettings(configuration.getProperties());
-            ServiceRegistry serviceRegistry = builder.build();
-            return configuration.buildSessionFactory(serviceRegistry);
-        }
+    private static SessionFactory createSessionFactory() {
+        Configuration configuration = getMySqlConfiguration();
+        StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder();
+        builder.applySettings(configuration.getProperties());
+        ServiceRegistry serviceRegistry = builder.build();
+        return configuration.buildSessionFactory(serviceRegistry);
+    }
 
     public static DBConnection getInstance() {
         if (instance == null) {

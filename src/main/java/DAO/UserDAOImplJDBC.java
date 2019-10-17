@@ -24,7 +24,7 @@ public class UserDAOImplJDBC implements UserDAO {
     }
 
     @Override
-    public List<User> getAllUsers() throws SQLException{
+    public List<User> getAllUsers() throws SQLException {
         List<User> users = new ArrayList<>();
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM users");
         ResultSet result = statement.executeQuery();
@@ -113,7 +113,6 @@ public class UserDAOImplJDBC implements UserDAO {
         stmt.execute("create table if not exists users (id bigint auto_increment, name varchar(32), mail varchar(128), age bigint, primary key (id))");
         stmt.close();
     }
-
 
 
 }

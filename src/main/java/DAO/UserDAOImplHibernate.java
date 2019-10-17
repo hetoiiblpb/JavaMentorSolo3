@@ -26,7 +26,7 @@ public class UserDAOImplHibernate implements UserDAO {
     }
 
     @Override
-    public List<User> getAllUsers() throws SQLException{
+    public List<User> getAllUsers() throws SQLException {
         List<User> users;
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
@@ -58,12 +58,12 @@ public class UserDAOImplHibernate implements UserDAO {
     }
 
     @Override
-    public User getUserById(Long id) throws SQLException{
+    public User getUserById(Long id) throws SQLException {
         User user;
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         Query query = session.createQuery("from User where id =:param");
-        query.setParameter("param",id);
+        query.setParameter("param", id);
         user = (User) query.getSingleResult();
         transaction.commit();
         session.close();
@@ -83,10 +83,10 @@ public class UserDAOImplHibernate implements UserDAO {
     @Override
     public boolean checkUserByEmail(String email) throws SQLException {     //Проверка на отсутствие user с таким email
         boolean exist;
-        Session session =sessionFactory.openSession();
+        Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         Query query = session.createQuery("from User where mail=:param");
-        query.setParameter("param",email);
+        query.setParameter("param", email);
         exist = query.getResultList().isEmpty();
         transaction.commit();
         session.close();
