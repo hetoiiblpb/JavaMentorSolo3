@@ -6,7 +6,7 @@ import exception.DBException;
 import java.sql.SQLException;
 import java.util.List;
 
-import static DAO.UserDAOFactory.getUserDAO;
+import static dao.UserDAOFactory.getUserDAO;
 
 public class UserService {
     private static UserService instance;

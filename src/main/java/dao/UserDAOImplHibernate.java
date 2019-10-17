@@ -1,4 +1,4 @@
-package DAO;
+package dao;
 
 import Model.User;
 import Util.DBConnection;
@@ -27,11 +27,10 @@ public class UserDAOImplHibernate implements UserDAO {
 
     @Override
     public List<User> getAllUsers() throws SQLException {
-        List<User> users;
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         Query query = session.createQuery("from User");
-        users = query.list();
+        List<User> users = query.list();
         transaction.commit();
         session.close();
         return users;

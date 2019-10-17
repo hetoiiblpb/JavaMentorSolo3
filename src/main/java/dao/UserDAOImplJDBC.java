@@ -1,4 +1,4 @@
-package DAO;
+package dao;
 
 import Model.User;
 import Util.DBConnection;

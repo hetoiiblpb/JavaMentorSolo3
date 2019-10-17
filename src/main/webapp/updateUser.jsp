@@ -11,20 +11,20 @@
 <form action="/updateUser" method="post">
     <table border="2">
         <tr>
-            <td align="right">ID:<input type="hidden" name="id" value="${id}"></td>
+            <td align="right">ID:<input type="hidden" name="id" value="${id}" required></td>
             <td>${id}</td>
         </tr>
         <tr>
             <td align="right">Имя:</td>
-            <td><input type="text" name="name" value="${name}"></td>
+            <td><input type="text" name="name" value="${name}" required></td>
         </tr>
         <tr>
             <td align="right">E-mail:</td>
-            <td><input type="text" name="mail" value="${mail}"></td>
+            <td><input type="email" name="mail" value="${mail}" required></td>
         </tr>
         <tr>
             <td align="right">Возраст:</td>
-            <td><input type="text" name="age" value="${age}" placeholder="Необходимо число"></td>
+            <td><input type="number" name="age" value="${age}" required min="1" max="200"></td>
         </tr>
 
     </table>

@@ -5,8 +5,8 @@ import exception.DBException;
 
 import java.sql.SQLException;
 
-import static DAO.UserDAOImplJDBC.createTable;
-import static DAO.UserDAOImplJDBC.dropTable;
+import static dao.UserDAOImplJDBC.createTable;
+import static dao.UserDAOImplJDBC.dropTable;
 
 public class Main {
 

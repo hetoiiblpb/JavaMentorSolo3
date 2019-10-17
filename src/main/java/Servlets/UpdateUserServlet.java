@@ -2,6 +2,7 @@ package Servlets;
 
 import Model.User;
 import Service.UserService;
+import Util.ConfigReader;
 import exception.DBException;
 
 import javax.servlet.ServletException;
@@ -18,42 +19,28 @@ public class UpdateUserServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("Utf-8");
-        String name = null;
-        String mail = null;
-        Long age = null;
-        Long id = null;
+        req.setCharacterEncoding(ConfigReader.getInstance().getCharacterEncoding());
+        Long id = Long.parseLong(req.getParameter("id"));
+        String name = req.getParameter("name");
+        String mail = req.getParameter("mail");
+        Long age = Long.parseLong(req.getParameter("age"));
         try {
-            id = Long.parseLong(req.getParameter("id"));
-            name = req.getParameter("name");
-            mail = req.getParameter("mail");
-            age = Math.abs(Long.parseLong(req.getParameter("age")));
             if (userService.updateUser(new User(id, name, mail, age))) {
                 resp.setStatus(HttpServletResponse.SC_OK);
                 resp.sendRedirect("/allUsers");
             } else {
-                req.setAttribute("name", name);
-                req.setAttribute("mail", mail);
-                req.setAttribute("age", age);
-                req.setAttribute("id", id);
-                req.setAttribute("message1", "Не оставляйте пустых полей!");
+                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 req.getRequestDispatcher("updateUser.jsp").forward(req, resp);
             }
         } catch (DBException e) {
             e.printStackTrace();
-        } catch (NumberFormatException e) {
-            req.setAttribute("id", id);
-            req.setAttribute("name", name);
-            req.setAttribute("mail", mail);
-            req.setAttribute("age", age);
-            req.getRequestDispatcher("updateUser.jsp").forward(req, resp);
         }
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            Long id = Math.abs(Long.parseLong(req.getParameter("id")));
+            Long id = Long.parseLong(req.getParameter("id"));
             User user = userService.getUserById(id);
             req.setAttribute("id", user.getId());
             req.setAttribute("name", user.getName());

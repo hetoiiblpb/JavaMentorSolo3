@@ -11,15 +11,15 @@
     <table style=" width: 10%; border: 4px double black;">
         <tr>
             <td>Имя</td>
-            <td><input name="name" type="text" value="${name}"/></td>
+            <td><input name="name" type="text" required/></td>
         </tr>
         <tr>
             <td> E-mail</td>
-            <td><input name="mail" type="text" value="${mail}"/></td>
+            <td><input name="mail" type="email" required/></td>
         </tr>
         <tr>
             <td> Возраст</td>
-            <td><input name="age" type="text" placeholder="${message}" value="${age}"/></td>
+            <td><input name="age" type="number" required min="1" max="200"/></td>
         </tr>
         <tr>
             <td><input type="submit" value="Добавить"></td>

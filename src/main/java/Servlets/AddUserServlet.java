@@ -2,6 +2,7 @@ package Servlets;
 
 import Model.User;
 import Service.UserService;
+import Util.ConfigReader;
 import exception.DBException;
 
 import javax.servlet.ServletException;
@@ -26,33 +27,21 @@ public class AddUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws IOException, ServletException {
-        req.setCharacterEncoding("Utf-8");
+        req.setCharacterEncoding(ConfigReader.getInstance().getCharacterEncoding());
         String name = req.getParameter("name");
         String mail = req.getParameter("mail");
+        Long age = Long.parseLong(req.getParameter("age"));
         try {
-            Long age = Math.abs(Long.parseLong(req.getParameter("age")));
             if (userService.addUser(new User(name, mail, age))) {
                 resp.setStatus(HttpServletResponse.SC_OK);
                 resp.sendRedirect("/allUsers");
             } else {
-                req.setAttribute("name", name);
-                req.setAttribute("mail", mail);
-                req.setAttribute("age", age);
-                req.setAttribute("message1", "Не оставляйте пустых полей!");
+                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 req.getRequestDispatcher("addUser.jsp").forward(req, resp);
             }
         } catch (DBException e) {
             e.printStackTrace();
-        } catch (NumberFormatException e) {
-            req.setAttribute("message1", "Не оставляйте пустых полей!");
-            req.setAttribute("name", name);
-            req.setAttribute("mail", mail);
-            req.setAttribute("message", "Требуется число");
-            req.getRequestDispatcher("addUser.jsp").forward(req, resp);
         }
     }
-
-
 }
-
 
