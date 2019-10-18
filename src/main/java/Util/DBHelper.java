@@ -23,7 +23,7 @@ public class DBHelper {
         try {
             DriverManager.registerDriver((Driver) Class.forName(properties.getProperty("driverClass")).newInstance());
             System.out.println("URL: " + properties.getProperty("url") + "\n");  //Индикатор работы через JDBC
-            return DriverManager.getConnection(properties.getProperty("url"), properties);
+            return DriverManager.getConnection(properties.getProperty("url"), properties.getProperty("userName"), properties.getProperty("password"));
         } catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
             e.printStackTrace();
             throw new IllegalStateException();
