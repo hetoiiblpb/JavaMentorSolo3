@@ -1,15 +1,17 @@
 package dao;
 
-import Util.ConfigReader;
+import Util.DBHelper;
 
 public class UserDAOFactory {
-
     public static UserDAO getUserDAO() {
-        String driver = ConfigReader.getInstance().getDriver().toLowerCase() + " ";  //Читаем из конфига параметр Driver
-        if (driver.contains("hibernate")) {
-            return UserDAOImplHibernate.getInstance();
-        } else {
-            return UserDAOImplJDBC.getInstance();
+        String driver = DBHelper.getProperties().getProperty("driver").toLowerCase();  //Читаем из конфига параметр Driver
+        switch (driver) {
+            case ("hibernate"): {
+                return UserDAOHibernateImpl.getInstance(DBHelper.getInstance().getSessionFactory());
+            }
+            default: {
+                return UserDAOJDBCImpl.getInstance(DBHelper.getInstance().getConnection());
+            }
         }
     }
 }

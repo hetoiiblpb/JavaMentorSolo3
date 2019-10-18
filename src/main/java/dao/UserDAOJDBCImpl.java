@@ -1,35 +1,34 @@
 package dao;
 
 import Model.User;
-import Util.DBConnection;
+import Util.DBHelper;
 import exception.DBException;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDAOImplJDBC implements UserDAO {
-    private static UserDAOImplJDBC instance;
+public class UserDAOJDBCImpl implements UserDAO {
+    private static UserDAOJDBCImpl instance;
     private static Connection connection;
 
-    private UserDAOImplJDBC() {
-        this.connection = DBConnection.getConnection();
+    private UserDAOJDBCImpl(Connection connection) {
+        this.connection = DBHelper.getConnection();
     }
 
-    public static UserDAOImplJDBC getInstance() {
+    public static UserDAOJDBCImpl getInstance(Connection connection) {
         if (instance == null) {
-            instance = new UserDAOImplJDBC();
+            instance = new UserDAOJDBCImpl(connection);
         }
         return instance;
     }
-
     @Override
-    public List<User> getAllUsers() throws SQLException {
-        List<User> users = new ArrayList<>();
+    public <T> List<T> getAllUsers() throws SQLException {
+        List<T> users = new ArrayList<>();
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM users");
         ResultSet result = statement.executeQuery();
         while (result.next()) {
-            users.add(new User(result.getLong("id"),
+            users.add((T) new User(result.getLong("id"),
                     result.getString("name"),
                     result.getString("mail"),
                     result.getLong("age")));
@@ -102,14 +101,14 @@ public class UserDAOImplJDBC implements UserDAO {
         return res;
     }
 
-    public static void dropTable() throws SQLException {
-        Statement stmt = DBConnection.getConnection().createStatement();
+    public void dropTable() throws SQLException {
+        Statement stmt = connection.createStatement();
         stmt.executeUpdate("TRUNCATE TABLE users");
         stmt.close();
     }
 
-    public static void createTable() throws SQLException {
-        Statement stmt = DBConnection.getConnection().createStatement();
+    public void createTable() throws SQLException {
+        Statement stmt = connection.createStatement();
         stmt.execute("create table if not exists users (id bigint auto_increment, name varchar(32), mail varchar(128), age bigint, primary key (id))");
         stmt.close();
     }

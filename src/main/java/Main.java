@@ -1,25 +1,26 @@
 import Model.User;
 import Service.UserService;
-import Util.ConfigReader;
+import Util.DBHelper;
+import dao.UserDAOJDBCImpl;
 import exception.DBException;
 
 import java.sql.SQLException;
 
-import static dao.UserDAOImplJDBC.createTable;
-import static dao.UserDAOImplJDBC.dropTable;
+import static dao.UserDAOJDBCImpl.getInstance;
 
 public class Main {
 
 
     public static void main(String[] args) throws DBException, SQLException {   //Метод только для теста
         UserService userService = UserService.getInstance();
+        DBHelper.getInstance();
+        DBHelper.getProperties();
+        UserDAOJDBCImpl userDAOJDBCImpl = getInstance(DBHelper.getConnection());
         if (args.length != 0) {
-            ConfigReader.getInstance().setDriver(args[0].toLowerCase());
-        } else {
-            ConfigReader.getInstance().getDriver();
+            DBHelper.getProperties().setProperty("driver", args[0]);
         }
-        dropTable();
-        createTable();
+        userDAOJDBCImpl.dropTable();
+        userDAOJDBCImpl.createTable();
         userService.addUser(new User("DartAxis", "mail", 32L));
         userService.addUser(new User("Kostya", "mail@ghb.ru", 29L));
         userService.addUser(new User("РусскоеИмя", "maiaxl1", 15L));

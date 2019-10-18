@@ -2,7 +2,7 @@ package Servlets;
 
 import Model.User;
 import Service.UserService;
-import Util.ConfigReader;
+import Util.DBHelper;
 import exception.DBException;
 
 import javax.servlet.ServletException;
@@ -19,7 +19,7 @@ public class UpdateUserServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding(ConfigReader.getInstance().getCharacterEncoding());
+        req.setCharacterEncoding(DBHelper.getProperties().getProperty("characterEncoding"));
         Long id = Long.parseLong(req.getParameter("id"));
         String name = req.getParameter("name");
         String mail = req.getParameter("mail");
@@ -33,6 +33,7 @@ public class UpdateUserServlet extends HttpServlet {
                 req.getRequestDispatcher("updateUser.jsp").forward(req, resp);
             }
         } catch (DBException e) {
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             e.printStackTrace();
         }
     }
@@ -47,9 +48,11 @@ public class UpdateUserServlet extends HttpServlet {
             req.setAttribute("mail", user.getEmail());
             req.setAttribute("age", user.getAge());
             req.getRequestDispatcher("updateUser.jsp").forward(req, resp);
+            resp.setStatus(HttpServletResponse.SC_OK);
 
         } catch (DBException e) {
             e.printStackTrace();
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 }

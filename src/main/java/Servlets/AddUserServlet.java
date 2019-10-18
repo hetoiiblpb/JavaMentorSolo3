@@ -2,7 +2,7 @@ package Servlets;
 
 import Model.User;
 import Service.UserService;
-import Util.ConfigReader;
+import Util.DBHelper;
 import exception.DBException;
 
 import javax.servlet.ServletException;
@@ -27,7 +27,7 @@ public class AddUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws IOException, ServletException {
-        req.setCharacterEncoding(ConfigReader.getInstance().getCharacterEncoding());
+        req.setCharacterEncoding(DBHelper.getProperties().getProperty("characterEncoding"));
         String name = req.getParameter("name");
         String mail = req.getParameter("mail");
         Long age = Long.parseLong(req.getParameter("age"));
@@ -40,6 +40,7 @@ public class AddUserServlet extends HttpServlet {
                 req.getRequestDispatcher("addUser.jsp").forward(req, resp);
             }
         } catch (DBException e) {
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             e.printStackTrace();
         }
     }

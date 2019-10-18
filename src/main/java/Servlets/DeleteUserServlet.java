@@ -26,7 +26,9 @@ public class DeleteUserServlet extends HttpServlet {
             req.setAttribute("mail", user.getEmail());
             req.setAttribute("age", user.getAge());
             req.getRequestDispatcher("deleteUser.jsp").forward(req, resp);
+            resp.setStatus(HttpServletResponse.SC_OK);
         } catch (DBException e) {
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             e.printStackTrace();
         }
 
@@ -34,15 +36,15 @@ public class DeleteUserServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
             Long id = Long.parseLong(req.getParameter("id"));
             if (userService.deleteUser(id)) {
                 resp.setStatus(HttpServletResponse.SC_OK);
                 resp.sendRedirect("/allUsers");
             }
-
         } catch (DBException e) {
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             e.printStackTrace();
         }
     }
