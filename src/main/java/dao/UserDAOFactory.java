@@ -1,6 +1,6 @@
 package dao;
 
-import Util.DBHelper;
+import util.DBHelper;
 
 public class UserDAOFactory {
     public static UserDAO getUserDAO() {

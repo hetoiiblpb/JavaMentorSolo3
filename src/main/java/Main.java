@@ -1,8 +1,8 @@
-import Model.User;
-import Service.UserService;
-import Util.DBHelper;
 import dao.UserDAOJDBCImpl;
 import exception.DBException;
+import model.User;
+import service.UserService;
+import util.DBHelper;
 
 import java.sql.SQLException;
 
