@@ -1,7 +1,6 @@
 package dao;
 
 import Model.User;
-import Util.DBConnection;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -10,27 +9,27 @@ import org.hibernate.query.Query;
 import java.sql.SQLException;
 import java.util.List;
 
-public class UserDAOImplHibernate implements UserDAO {
-    private static UserDAOImplHibernate instance;
+public class UserDAOHibernateImpl implements UserDAO {
+    private static UserDAOHibernateImpl instance;
     private static SessionFactory sessionFactory;
 
-    private UserDAOImplHibernate(SessionFactory sessionFactory) {
+    private UserDAOHibernateImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
-    public static UserDAOImplHibernate getInstance() {
+    public static UserDAOHibernateImpl getInstance(SessionFactory sessionFactory) {
         if (instance == null) {
-            instance = new UserDAOImplHibernate(DBConnection.getInstance().getSessionFactory());
+            instance = new UserDAOHibernateImpl(sessionFactory);
         }
         return instance;
     }
 
     @Override
-    public List<User> getAllUsers() throws SQLException {
+    public <T> List<T> getAllUsers() throws SQLException {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        Query query = session.createQuery("from User");
-        List<User> users = query.list();
+        Query query = session.createQuery("from User", User.class);
+        List<T> users = query.list();
         transaction.commit();
         session.close();
         return users;
@@ -41,9 +40,15 @@ public class UserDAOImplHibernate implements UserDAO {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.save(user);
-        transaction.commit();
+        try {
+            transaction.commit();
+            session.close();
+            return true;
+        } catch (Exception e) {
+            transaction.rollback();
+        }
         session.close();
-        return true;
+        return false;
     }
 
     @Override
@@ -51,22 +56,33 @@ public class UserDAOImplHibernate implements UserDAO {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.delete(getUserById(id));
-        transaction.commit();
+        try {
+            transaction.commit();
+            session.close();
+            return true;
+        } catch (Exception e) {
+            transaction.rollback();
+        }
         session.close();
-        return true;
+        return false;
     }
 
     @Override
     public User getUserById(Long id) throws SQLException {
-        User user;
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         Query query = session.createQuery("from User where id =:param");
         query.setParameter("param", id);
-        user = (User) query.getSingleResult();
-        transaction.commit();
-        session.close();
-        return user;
+        User user = (User) query.getSingleResult();
+        try {
+            transaction.commit();
+            session.close();
+            return user;
+        } catch (Exception e) {
+            transaction.rollback();
+            session.close();
+            return null;
+        }
     }
 
     @Override
@@ -74,22 +90,33 @@ public class UserDAOImplHibernate implements UserDAO {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.update(user);
-        transaction.commit();
+        try {
+            transaction.commit();
+            session.close();
+            return true;
+        } catch (Exception e) {
+            transaction.rollback();
+        }
         session.close();
-        return true;
+        return false;
     }
 
     @Override
     public boolean checkUserByEmail(String email) throws SQLException {     //Проверка на отсутствие user с таким email
-        boolean exist;
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         Query query = session.createQuery("from User where mail=:param");
         query.setParameter("param", email);
-        exist = query.getResultList().isEmpty();
-        transaction.commit();
+        boolean exist = query.getResultList().isEmpty();
+        try {
+            transaction.commit();
+            session.close();
+            return exist;
+        } catch (Exception e) {
+            transaction.rollback();
+        }
         session.close();
-        return exist;
+        return true;
     }
 
 }
