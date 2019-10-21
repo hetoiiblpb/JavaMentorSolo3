@@ -1,12 +1,9 @@
-import dao.UserDAOJDBCImpl;
 import exception.DBException;
 import model.User;
 import service.UserService;
 import util.DBHelper;
 
 import java.sql.SQLException;
-
-import static dao.UserDAOJDBCImpl.getInstance;
 
 public class Main {
 
@@ -15,12 +12,12 @@ public class Main {
         UserService userService = UserService.getInstance();
         DBHelper.getInstance();
         DBHelper.getProperties();
-        UserDAOJDBCImpl userDAOJDBCImpl = getInstance(DBHelper.getConnection());
+        //UserDAOJDBCImpl userDAOJDBCImpl = getInstance(DBHelper.getConnection());
         if (args.length != 0) {
             DBHelper.getProperties().setProperty("driver", args[0]);
         }
-        userDAOJDBCImpl.dropTable();
-        userDAOJDBCImpl.createTable();
+//        userDAOJDBCImpl.dropTable();
+//        userDAOJDBCImpl.createTable();
         userService.addUser(new User("DartAxis", "mail", 32L));
         userService.addUser(new User("Kostya", "mail@ghb.ru", 29L));
         userService.addUser(new User("РусскоеИмя", "maiaxl1", 15L));
