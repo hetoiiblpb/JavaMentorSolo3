@@ -13,15 +13,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@WebServlet("/addUser")
-public class AddUserServlet extends HttpServlet {
+@WebServlet("/registration")
+public class RegistrationServlet extends HttpServlet {
     UserService userService = UserService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        req.getRequestDispatcher("addUser.jsp").forward(req, resp);
+        req.getRequestDispatcher("registration.jsp").forward(req, resp);
     }
 
     @Override
@@ -33,12 +33,13 @@ public class AddUserServlet extends HttpServlet {
         String password = req.getParameter("password");
         Long age = Long.parseLong(req.getParameter("age"));
         try {
-            if (userService.addUser(new User(name, password, mail, age))) {
+            if (userService.addUser(new User(name, mail, password, age))) {
                 resp.setStatus(HttpServletResponse.SC_OK);
-                resp.sendRedirect("/allUsers");
+                req.setAttribute("nameForHello", name);
+                resp.sendRedirect("/helloUser");
             } else {
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                req.getRequestDispatcher("addUser.jsp").forward(req, resp);
+                req.getRequestDispatcher("registration.jsp").forward(req, resp);
             }
         } catch (DBException e) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);

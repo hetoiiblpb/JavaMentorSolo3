@@ -119,4 +119,23 @@ public class UserDAOHibernateImpl implements UserDAO {
         return true;
     }
 
+    @Override
+    public boolean verifyUserPassword(String name, String password) throws SQLException {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        Query query = session.createQuery("from User where name=:name , password=:password");
+        query.setParameter("name", name);
+        query.setParameter("password", password);
+        boolean exist = !query.getResultList().isEmpty();
+        try {
+            transaction.commit();
+            session.close();
+            return exist;
+        } catch (Exception e) {
+            transaction.rollback();
+        }
+        session.close();
+        return false;
+    }
+
 }

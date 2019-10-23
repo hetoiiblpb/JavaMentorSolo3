@@ -2,36 +2,35 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
-    <title>Solo3 - Add User</title>
+    <title>Solo3-Registration</title>
 </head>
 <body>
-<h1>Добавление пользователя</h1>
-<h5 style="color: red">${message1} </h5>
-<form action="/addUser" method="post">
+<h1>Регистрация</h1>
+
+<form action="/registration" method="post">
     <table style=" width: 10%; border: 4px double black;">
         <tr>
             <td>Имя</td>
             <td><input name="name" type="text" required/></td>
         </tr>
         <tr>
-        <tr>
-            <td>Пароль</td>
-            <td><input name="password" type="password" required/></td>
+            <td>E-mail</td>
+            <td><input name="email" type="email" required/></td>
         </tr>
         <tr>
-            <td> E-mail</td>
-            <td><input name="mail" type="email" required/></td>
+            <td> Пароль</td>
+            <td><input name="password" type="password" required/></td>
         </tr>
         <tr>
             <td> Возраст</td>
             <td><input name="age" type="number" required min="1" max="200"/></td>
         </tr>
         <tr>
-            <td><input type="submit" value="Добавить"></td>
+            <td><input type="submit" value="Зарегестрироваться"></td>
         </tr>
     </table>
 </form>
-<form action="/allUsers" method="get"><input type="submit" value="Отмена"></form>
+<form action="/registration" method="get"><input type="submit" value="Очистить поля"></form>
 </body>
 </html>
 

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
-    <title>Solo3-Update</title>
+    <title>Solo3-Update User: ${name}</title>
 </head>
 <body>
 
@@ -17,6 +17,10 @@
         <tr>
             <td align="right">Имя:</td>
             <td><input type="text" name="name" value="${name}" required></td>
+        </tr>
+        <tr>
+            <td align="right">Пароль:</td>
+            <td><input type="password" name="password" value="${password}" required></td>
         </tr>
         <tr>
             <td align="right">E-mail:</td>

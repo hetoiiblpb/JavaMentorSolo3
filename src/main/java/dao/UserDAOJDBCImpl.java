@@ -30,8 +30,10 @@ public class UserDAOJDBCImpl implements UserDAO {
         while (result.next()) {
             users.add((T) new User(result.getLong("id"),
                     result.getString("name"),
+                    result.getString("password"),
                     result.getString("mail"),
-                    result.getLong("age")));
+                    result.getLong("age"),
+                    result.getString("role")));
         }
         statement.close();
         return users;
@@ -39,11 +41,12 @@ public class UserDAOJDBCImpl implements UserDAO {
 
     @Override
     public boolean addUser(User user) throws SQLException {
-        String stat = "INSERT INTO users.users (name,  mail, age) values (?,?,?)";
+        String stat = "INSERT INTO users.users (name, password,  mail, age) values (?,?,?,?)";
         PreparedStatement statement = connection.prepareStatement(stat);
         statement.setString(1, user.getName());
-        statement.setString(2, user.getEmail());
-        statement.setLong(3, user.getAge());
+        statement.setString(2, user.getPassword());
+        statement.setString(3, user.getEmail());
+        statement.setLong(4, user.getAge());
         if (statement.executeUpdate() != 0) {
             statement.close();
             return true;
@@ -71,8 +74,10 @@ public class UserDAOJDBCImpl implements UserDAO {
         resultSet.next();
         User user = new User(resultSet.getLong("id"),
                 resultSet.getString("name"),
+                resultSet.getString("password"),
                 resultSet.getString("mail"),
-                resultSet.getLong("age"));
+                resultSet.getLong("age"),
+                resultSet.getString("role"));
         statement.close();
         return user;
     }
@@ -101,6 +106,16 @@ public class UserDAOJDBCImpl implements UserDAO {
         return res;
     }
 
+    @Override
+    public boolean verifyUserPassword(String name, String password) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM users.users WHERE name = ?, password = ?");
+        statement.setString(1, name);
+        statement.setString(2, password);
+        boolean res = statement.executeQuery().next();
+        statement.close();
+        return res;
+    }
+
     public void dropTable() throws SQLException {
         Statement stmt = connection.createStatement();
         stmt.executeUpdate("TRUNCATE TABLE users");
@@ -109,7 +124,7 @@ public class UserDAOJDBCImpl implements UserDAO {
 
     public void createTable() throws SQLException {
         Statement stmt = connection.createStatement();
-        stmt.execute("create table if not exists users (id bigint auto_increment, name varchar(32), mail varchar(128), age bigint, primary key (id))");
+        stmt.execute("create table if not exists users (id bigint auto_increment, name varchar(32), password varchar(128), mail varchar(128), age bigint, role varchar (5), primary key (id))");
         stmt.close();
     }
 

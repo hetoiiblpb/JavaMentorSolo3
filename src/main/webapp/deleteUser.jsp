@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
-    <title>Solo3-Delete</title>
+    <title>Solo3 - Delete User: ${name}</title>
 </head>
 <body>
 
@@ -25,6 +25,10 @@
         <tr>
             <td align="right">Возраст:</td>
             <td>${age}</td>
+        </tr>
+        <tr>
+            <td align="right">Роль:</td>
+            <td>${role}</td>
         </tr>
 
     </table>

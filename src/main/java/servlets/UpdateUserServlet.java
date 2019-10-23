@@ -23,9 +23,10 @@ public class UpdateUserServlet extends HttpServlet {
         Long id = Long.parseLong(req.getParameter("id"));
         String name = req.getParameter("name");
         String mail = req.getParameter("mail");
+        String password = req.getParameter("password");
         Long age = Long.parseLong(req.getParameter("age"));
         try {
-            if (userService.updateUser(new User(id, name, mail, age))) {
+            if (userService.updateUser(new User(id, name, password, mail, age))) {
                 resp.setStatus(HttpServletResponse.SC_OK);
                 resp.sendRedirect("/allUsers");
             } else {
@@ -47,6 +48,7 @@ public class UpdateUserServlet extends HttpServlet {
             req.setAttribute("name", user.getName());
             req.setAttribute("mail", user.getEmail());
             req.setAttribute("age", user.getAge());
+            req.setAttribute("password", user.getPassword());
             req.getRequestDispatcher("updateUser.jsp").forward(req, resp);
             resp.setStatus(HttpServletResponse.SC_OK);
 

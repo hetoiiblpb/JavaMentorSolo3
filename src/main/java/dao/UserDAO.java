@@ -12,6 +12,8 @@ public interface UserDAO {
 
     boolean checkUserByEmail(String email) throws SQLException;
 
+    boolean verifyUserPassword(String name, String password) throws SQLException;
+
     boolean addUser(User user) throws SQLException;
 
     boolean deleteUser(Long id) throws SQLException;

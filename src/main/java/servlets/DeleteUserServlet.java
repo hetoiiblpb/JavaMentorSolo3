@@ -25,6 +25,7 @@ public class DeleteUserServlet extends HttpServlet {
             req.setAttribute("name", user.getName());
             req.setAttribute("mail", user.getEmail());
             req.setAttribute("age", user.getAge());
+            req.setAttribute("role", user.getRole());
             req.getRequestDispatcher("deleteUser.jsp").forward(req, resp);
             resp.setStatus(HttpServletResponse.SC_OK);
         } catch (DBException e) {
