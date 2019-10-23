@@ -8,23 +8,23 @@ import java.util.Objects;
 public class User {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "id", length = 20)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", length = 32)
     private String name;
 
-    @Column(name = "password")
+    @Column(name = "password", length = 128)
     private String password;
 
-    @Column(name = "mail")
+    @Column(name = "mail", length = 128)
     private String email;
 
-    @Column(name = "age")
+    @Column(name = "age", length = 20)
     private Long age;
 
-    @Column(name = "role")
+    @Column(name = "role", length = 5, nullable = false, columnDefinition = "varchar(5) default 'user'")
     private String role;
 
 

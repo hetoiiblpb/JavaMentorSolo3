@@ -2,11 +2,18 @@ package dao;
 
 import exception.DBException;
 import model.User;
+import util.DBHelper;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public interface UserDAO {
+
+    User admin = new User(DBHelper.getProperties().getProperty("adminName", "defAdmin"),
+            DBHelper.getProperties().getProperty("adminPass", "defPass"),
+            DBHelper.getProperties().getProperty("adminEmail", "defMail@mail.ru"),
+            Long.parseLong(DBHelper.getProperties().getProperty("adminAge", "300")),
+            "admin");
 
     <T> List<T> getAllUsers() throws SQLException;
 

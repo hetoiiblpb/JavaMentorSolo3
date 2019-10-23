@@ -29,11 +29,11 @@ public class RegistrationServlet extends HttpServlet {
             throws IOException, ServletException {
         req.setCharacterEncoding(DBHelper.getProperties().getProperty("characterEncoding"));
         String name = req.getParameter("name");
-        String mail = req.getParameter("mail");
+        String email = req.getParameter("email");
         String password = req.getParameter("password");
         Long age = Long.parseLong(req.getParameter("age"));
         try {
-            if (userService.addUser(new User(name, mail, password, age))) {
+            if (userService.addUser(new User(name, password, email, age))) {
                 resp.setStatus(HttpServletResponse.SC_OK);
                 req.setAttribute("nameForHello", name);
                 resp.sendRedirect("/helloUser");

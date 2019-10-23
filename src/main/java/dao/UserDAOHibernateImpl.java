@@ -13,11 +13,14 @@ public class UserDAOHibernateImpl implements UserDAO {
     private static UserDAOHibernateImpl instance;
     private static SessionFactory sessionFactory;
 
-    private UserDAOHibernateImpl(SessionFactory sessionFactory) {
+    private UserDAOHibernateImpl(SessionFactory sessionFactory) throws SQLException {
         this.sessionFactory = sessionFactory;
+        if (checkUserByEmail(admin.getEmail())) {
+            addUser(admin);
+        }
     }
 
-    public static UserDAOHibernateImpl getInstance(SessionFactory sessionFactory) {
+    public static UserDAOHibernateImpl getInstance(SessionFactory sessionFactory) throws SQLException {
         if (instance == null) {
             instance = new UserDAOHibernateImpl(sessionFactory);
         }
@@ -123,7 +126,7 @@ public class UserDAOHibernateImpl implements UserDAO {
     public boolean verifyUserPassword(String name, String password) throws SQLException {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        Query query = session.createQuery("from User where name=:name , password=:password");
+        Query query = session.createQuery("from User where name=:name and password=:password");
         query.setParameter("name", name);
         query.setParameter("password", password);
         boolean exist = !query.getResultList().isEmpty();

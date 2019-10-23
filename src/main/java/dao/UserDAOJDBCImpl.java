@@ -12,11 +12,17 @@ public class UserDAOJDBCImpl implements UserDAO {
     private static UserDAOJDBCImpl instance;
     private static Connection connection;
 
-    private UserDAOJDBCImpl(Connection connection) {
+    private UserDAOJDBCImpl(Connection connection) throws SQLException {
         this.connection = DBHelper.getConnection();
+        PreparedStatement stmt = connection.prepareStatement("create table if not exists users (id bigint auto_increment, name varchar(32), password varchar(128), mail varchar(128), age bigint, role varchar(5) not null default 'user ', primary key (id))");
+        stmt.execute();
+        stmt.close();
+        if (checkUserByEmail(admin.getEmail())) {
+            addUser(admin);
+        }
     }
 
-    public static UserDAOJDBCImpl getInstance(Connection connection) {
+    public static UserDAOJDBCImpl getInstance(Connection connection) throws SQLException {
         if (instance == null) {
             instance = new UserDAOJDBCImpl(connection);
         }
@@ -41,12 +47,13 @@ public class UserDAOJDBCImpl implements UserDAO {
 
     @Override
     public boolean addUser(User user) throws SQLException {
-        String stat = "INSERT INTO users.users (name, password,  mail, age) values (?,?,?,?)";
+        String stat = "INSERT INTO users.users (name, password,  mail, age, role) values (?,?,?,?,?)";
         PreparedStatement statement = connection.prepareStatement(stat);
         statement.setString(1, user.getName());
         statement.setString(2, user.getPassword());
         statement.setString(3, user.getEmail());
         statement.setLong(4, user.getAge());
+        statement.setString(5, user.getRole());
         if (statement.executeUpdate() != 0) {
             statement.close();
             return true;
@@ -84,11 +91,12 @@ public class UserDAOJDBCImpl implements UserDAO {
 
     @Override
     public boolean updateUser(User user) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement("UPDATE users set name = ?, mail = ?, age = ? WHERE id = ? ");
+        PreparedStatement statement = connection.prepareStatement("UPDATE users set name = ?, password = ?, mail = ?, age = ? WHERE id = ? ");
         statement.setString(1, user.getName());
-        statement.setString(2, user.getEmail());
-        statement.setLong(3, user.getAge());
-        statement.setLong(4, user.getId());
+        statement.setString(2, user.getPassword());
+        statement.setString(3, user.getEmail());
+        statement.setLong(4, user.getAge());
+        statement.setLong(5, user.getId());
         if (statement.executeUpdate() != 0) {
             statement.close();
             return true;
@@ -108,7 +116,7 @@ public class UserDAOJDBCImpl implements UserDAO {
 
     @Override
     public boolean verifyUserPassword(String name, String password) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement("SELECT * FROM users.users WHERE name = ?, password = ?");
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM users.users WHERE name = ? AND  password= ?");
         statement.setString(1, name);
         statement.setString(2, password);
         boolean res = statement.executeQuery().next();
@@ -116,15 +124,11 @@ public class UserDAOJDBCImpl implements UserDAO {
         return res;
     }
 
-    public void dropTable() throws SQLException {
-        Statement stmt = connection.createStatement();
-        stmt.executeUpdate("TRUNCATE TABLE users");
-        stmt.close();
-    }
 
-    public void createTable() throws SQLException {
+    public void refreshTable() throws SQLException {
         Statement stmt = connection.createStatement();
-        stmt.execute("create table if not exists users (id bigint auto_increment, name varchar(32), password varchar(128), mail varchar(128), age bigint, role varchar (5), primary key (id))");
+        stmt.executeUpdate(" drop table if exists users ");
+        stmt.execute("create table if not exists users (id bigint auto_increment, name varchar(32), password varchar(128), mail varchar(128), age bigint, role varchar(5) not null default 'user ', primary key (id))");
         stmt.close();
     }
 
