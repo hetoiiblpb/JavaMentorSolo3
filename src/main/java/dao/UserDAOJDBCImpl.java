@@ -84,11 +84,12 @@ public class UserDAOJDBCImpl implements UserDAO {
 
     @Override
     public boolean updateUser(User user) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement("UPDATE users set name = ?, mail = ?, age = ? WHERE id = ? ");
+        PreparedStatement statement = connection.prepareStatement("UPDATE users set name = ?, password = ?, mail = ?, age = ? WHERE id = ? ");
         statement.setString(1, user.getName());
-        statement.setString(2, user.getEmail());
-        statement.setLong(3, user.getAge());
-        statement.setLong(4, user.getId());
+        statement.setString(2, user.getPassword());
+        statement.setString(3, user.getEmail());
+        statement.setLong(4, user.getAge());
+        statement.setLong(5, user.getId());
         if (statement.executeUpdate() != 0) {
             statement.close();
             return true;
@@ -108,7 +109,7 @@ public class UserDAOJDBCImpl implements UserDAO {
 
     @Override
     public boolean verifyUserPassword(String name, String password) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement("SELECT * FROM users.users WHERE name = ?, password = ?");
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM users.users WHERE name = ? AND  password= ?");
         statement.setString(1, name);
         statement.setString(2, password);
         boolean res = statement.executeQuery().next();
@@ -118,13 +119,13 @@ public class UserDAOJDBCImpl implements UserDAO {
 
     public void dropTable() throws SQLException {
         Statement stmt = connection.createStatement();
-        stmt.executeUpdate("TRUNCATE TABLE users");
+        stmt.executeUpdate("TRUNCATE TABLE users ");
         stmt.close();
     }
 
     public void createTable() throws SQLException {
         Statement stmt = connection.createStatement();
-        stmt.execute("create table if not exists users (id bigint auto_increment, name varchar(32), password varchar(128), mail varchar(128), age bigint, role varchar (5), primary key (id))");
+        stmt.execute("create table if not exists users (id bigint auto_increment, name varchar(32), password varchar(128), mail varchar(128), age bigint, role varchar(5) not null default 'user ', primary key (id))");
         stmt.close();
     }
 

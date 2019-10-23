@@ -76,4 +76,12 @@ public class UserService {
         }
     }
 
+    public boolean verifyUserPassword(String name, String password) throws DBException {
+        try {
+            return getUserDAO().verifyUserPassword(name, password);
+        } catch (SQLException e) {
+            throw new DBException(e);
+        }
+    }
+
 }

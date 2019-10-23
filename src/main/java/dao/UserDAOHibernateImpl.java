@@ -123,7 +123,7 @@ public class UserDAOHibernateImpl implements UserDAO {
     public boolean verifyUserPassword(String name, String password) throws SQLException {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        Query query = session.createQuery("from User where name=:name , password=:password");
+        Query query = session.createQuery("from User where name=:name and password=:password");
         query.setParameter("name", name);
         query.setParameter("password", password);
         boolean exist = !query.getResultList().isEmpty();
