@@ -8,7 +8,7 @@
     <title>Solo3 - All Users</title>
 </head>
 <body>
-<table style=" width: 10%; border: 4px double black;">
+<table style=" width: 10%; border: 4px double black; border-collapse: 2px solid black">
     <tr style="border-bottom: 2px solid black">
         <td style="border-bottom: 2px solid black">Id</td>
         <td style="border-bottom: 2px solid black">Имя</td>
@@ -19,9 +19,9 @@
         <td style="border-bottom: 2px solid black"></td>
     </tr>
     <c:forEach items="${requestScope.users}" var="user">
-        <tr>
+        <tr style="border-bottom: 2px solid black">
             <td>${user.getId()}</td>
-            <td style="width: 150px">${user.getName()}</td>
+            <td>${user.getName()}</td>
             <td>${user.getPassword()}</td>
             <td>${user.getEmail()}</td>
             <td>${user.getAge()}</td>
@@ -31,10 +31,12 @@
                     <input type="hidden" name="id" value="${user.getId()}">
                     <input type="submit" value="Изменить" style="float:left">
                 </form>
-                <form action="/deleteUser" method="get">
-                    <input type="hidden" name="id" value="${user.getId()}">
-                    <input type="submit" value="Удалить" style="float:left">
-                </form>
+                <c:if test="${!user.getRole().equals('admin')}">
+                    <form action="/deleteUser" method="get">
+                        <input type="hidden" name="id" value="${user.getId()}">
+                        <input type="submit" value="Удалить" style="float:left">
+                    </form>
+                </c:if>
             </td>
         </tr>
     </c:forEach>
