@@ -76,9 +76,9 @@ public class UserService {
         }
     }
 
-    public boolean verifyUserPassword(String name, String password) throws DBException {
+    public User verifyUserPassword(String name, String password) throws DBException {
         if (name.isEmpty() || password.isEmpty()) {
-            return false;
+            return null;
         }
         try {
             return getUserDAO().verifyUserPassword(name, password);

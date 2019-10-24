@@ -78,7 +78,9 @@ public class UserDAOJDBCImpl implements UserDAO {
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM users.users where id = ?");
         statement.setLong(1, id);
         ResultSet resultSet = statement.executeQuery();
-        resultSet.next();
+        if (!resultSet.next()) {
+            return null;
+        }
         User user = new User(resultSet.getLong("id"),
                 resultSet.getString("name"),
                 resultSet.getString("password"),
@@ -115,13 +117,22 @@ public class UserDAOJDBCImpl implements UserDAO {
     }
 
     @Override
-    public boolean verifyUserPassword(String name, String password) throws SQLException {
+    public User verifyUserPassword(String name, String password) throws SQLException {
+        User user = null;
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM users.users WHERE name = ? AND  password= ?");
         statement.setString(1, name);
         statement.setString(2, password);
-        boolean res = statement.executeQuery().next();
+        ResultSet resultSet = statement.executeQuery();
+        if (resultSet.next()) {
+            user = new User(resultSet.getLong("id"),
+                    resultSet.getString("name"),
+                    resultSet.getString("password"),
+                    resultSet.getString("mail"),
+                    resultSet.getLong("age"),
+                    resultSet.getString("role"));
+        }
         statement.close();
-        return res;
+        return user;
     }
 
 

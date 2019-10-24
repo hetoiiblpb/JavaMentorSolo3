@@ -31,10 +31,12 @@
                     <input type="hidden" name="id" value="${user.getId()}">
                     <input type="submit" value="Изменить" style="float:left">
                 </form>
-                <form action="/deleteUser" method="get">
-                    <input type="hidden" name="id" value="${user.getId()}">
-                    <input type="submit" value="Удалить" style="float:left">
-                </form>
+                <c:if test="${!user.getRole().equals('admin')}">
+                    <form action="/deleteUser" method="get">
+                        <input type="hidden" name="id" value="${user.getId()}">
+                        <input type="submit" value="Удалить" style="float:left">
+                    </form>
+                </c:if>
             </td>
         </tr>
     </c:forEach>
