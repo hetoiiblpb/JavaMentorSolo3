@@ -27,12 +27,12 @@
             <td>${user.getAge()}</td>
             <td>${user.getRole()}</td>
             <td>
-                <form action="/updateUser" method="get">
+                <form action="/admin/updateUser" method="get">
                     <input type="hidden" name="id" value="${user.getId()}">
                     <input type="submit" value="Изменить" style="float:left">
                 </form>
                 <c:if test="${!user.getRole().equals('admin')}">
-                    <form action="/deleteUser" method="get">
+                    <form action="/admin/deleteUser" method="get">
                         <input type="hidden" name="id" value="${user.getId()}">
                         <input type="submit" value="Удалить" style="float:left">
                     </form>
@@ -43,7 +43,7 @@
 </table>
 ${error}
 <br>
-<form action="/addUser" method="get">
+<form action="/admin/addUser" method="get">
     <input type="submit" value="Добавить нового пользователя">
 
 </form>

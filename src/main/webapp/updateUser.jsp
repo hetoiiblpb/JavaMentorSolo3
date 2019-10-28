@@ -8,7 +8,7 @@
 
 Редактировать пользователя
 <h5 style="color: red">${message1} </h5>
-<form action="/updateUser" method="post">
+<form action="/admin/updateUser" method="post">
     <table border="2">
         <tr>
             <td align="right">ID:<input type="hidden" name="id" value="${id}" required></td>

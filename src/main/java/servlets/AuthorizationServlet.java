@@ -41,7 +41,7 @@ public class AuthorizationServlet extends HttpServlet {
                 httpSession.setAttribute("name", user.getName());
                 if (user.getRole().equals("admin")) {
                     resp.setStatus(HttpServletResponse.SC_OK);
-                    resp.sendRedirect("/allUsers");
+                    resp.sendRedirect("/admin");
                 } else {
                     resp.setStatus(HttpServletResponse.SC_OK);
                     resp.sendRedirect("/helloUser");
@@ -59,11 +59,13 @@ public class AuthorizationServlet extends HttpServlet {
         }
     }
 
-    @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        HttpSession httpSession = req.getSession();
-        httpSession.invalidate();
-        resp.sendRedirect("/authorization");
-    }
+//    @Override
+//    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+//        HttpSession httpSession = req.getSession(false);
+//        httpSession.removeAttribute("role");
+//        httpSession.removeAttribute("id");
+//        httpSession.removeAttribute("name");
+//        resp.sendRedirect("/authorization");
+//    }
 }
 

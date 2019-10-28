@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 
@@ -34,8 +35,11 @@ public class RegistrationServlet extends HttpServlet {
         Long age = Long.parseLong(req.getParameter("age"));
         try {
             if (userService.addUser(new User(name, password, email, age))) {
+                HttpSession httpSession = req.getSession(true);
+                httpSession.setAttribute("role", "user");
+                httpSession.setAttribute("name", name);
                 resp.setStatus(HttpServletResponse.SC_OK);
-                req.setAttribute("name", name);
+//                req.setAttribute("name", name);
                 resp.sendRedirect("/helloUser");
             } else {
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);

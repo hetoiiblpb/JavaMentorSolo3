@@ -8,7 +8,7 @@
 
 <h1>Удалить пользователя?</h1>
 
-<form action="/deleteUser" method="post">
+<form action="/admin/deleteUser" method="post">
     <table border="2">
         <tr>
             <td align="right">ID:<input type="hidden" name="id" value="${id}"></td>
@@ -34,7 +34,7 @@
     </table>
     <input type="submit" value="Удалить">
 </form>
-<form action="/allUsers" method="get"><input type="submit" value="Отмена"></form>
+<form action="/admin" method="get"><input type="submit" value="Отмена"></form>
 </body>
 </html>
 

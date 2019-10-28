@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@WebServlet("/addUser")
+@WebServlet("/admin/addUser")
 public class AddUserServlet extends HttpServlet {
     UserService userService = UserService.getInstance();
 
@@ -38,7 +38,7 @@ public class AddUserServlet extends HttpServlet {
                 resp.sendRedirect("/allUsers");
             } else {
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                req.getRequestDispatcher("addUser.jsp").forward(req, resp);
+                req.getRequestDispatcher(req.getContextPath().concat("/").concat("addUser.jsp")).forward(req, resp);
             }
         } catch (DBException e) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);

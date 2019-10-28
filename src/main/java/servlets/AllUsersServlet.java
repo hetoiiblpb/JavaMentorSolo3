@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.List;
 
 
-@WebServlet("/allUsers")
+@WebServlet("/admin")
 public class AllUsersServlet extends HttpServlet {
 
     UserService userService = UserService.getInstance();
@@ -27,6 +27,6 @@ public class AllUsersServlet extends HttpServlet {
         } catch (DBException e) {
             e.printStackTrace();
         }
-        req.getRequestDispatcher("allUsers.jsp").forward(req, resp);
+        req.getRequestDispatcher(req.getContextPath().concat("/").concat("allUsers.jsp")).forward(req, resp);
     }
 }

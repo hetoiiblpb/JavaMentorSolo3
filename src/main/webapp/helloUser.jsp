@@ -10,9 +10,8 @@
 <body>
 Hello , ${name}!
 <br>
-<form action="/authorization" method="delete">
+<form action="/helloUser" method="post">
     <input type="submit" value="Выйти">
-
 </form>
 </body>
 </html>

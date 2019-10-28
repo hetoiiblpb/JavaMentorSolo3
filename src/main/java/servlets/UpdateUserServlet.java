@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@WebServlet("/updateUser")
+@WebServlet("/admin/updateUser")
 public class UpdateUserServlet extends HttpServlet {
     UserService userService = UserService.getInstance();
 
@@ -28,7 +28,7 @@ public class UpdateUserServlet extends HttpServlet {
         try {
             if (userService.updateUser(new User(id, name, password, mail, age))) {
                 resp.setStatus(HttpServletResponse.SC_OK);
-                resp.sendRedirect("/allUsers");
+                resp.sendRedirect("/admin");
             } else {
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 req.getRequestDispatcher("updateUser.jsp").forward(req, resp);
@@ -49,7 +49,7 @@ public class UpdateUserServlet extends HttpServlet {
             req.setAttribute("mail", user.getEmail());
             req.setAttribute("age", user.getAge());
             req.setAttribute("password", user.getPassword());
-            req.getRequestDispatcher("updateUser.jsp").forward(req, resp);
+            req.getRequestDispatcher(req.getContextPath().concat("/").concat("updateUser.jsp")).forward(req, resp);
             resp.setStatus(HttpServletResponse.SC_OK);
 
         } catch (DBException e) {

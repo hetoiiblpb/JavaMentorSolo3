@@ -1,7 +1,5 @@
 package servlets;
 
-import exception.DBException;
-import model.User;
 import service.UserService;
 import util.DBHelper;
 
@@ -21,7 +19,6 @@ public class HelloUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-
         req.getRequestDispatcher("helloUser.jsp").forward(req, resp);
     }
 
@@ -29,34 +26,21 @@ public class HelloUserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws IOException, ServletException {
         req.setCharacterEncoding(DBHelper.getProperties().getProperty("characterEncoding"));
-        String name = req.getParameter("name");
-        String password = req.getParameter("password");
-        try {
-            User user = userService.verifyUserPassword(name, password);
-            if (user != null) {
-                resp.setStatus(HttpServletResponse.SC_OK);
-                HttpSession httpSession = req.getSession(true);
-                httpSession.setAttribute("role", user.getRole());
-                httpSession.setAttribute("id", user.getId());
-                httpSession.setAttribute("name", user.getName());
-                resp.sendRedirect("/helloUser");
-            } else {
-                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                req.getRequestDispatcher("authorization.jsp").forward(req, resp);
-            }
-        } catch (DBException e) {
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            e.printStackTrace();
-        }
+        HttpSession httpSession = req.getSession(false);
+        System.out.println(httpSession.getAttribute("role"));
+        httpSession.removeAttribute("role");
+        resp.sendRedirect("/authorization");
+        // System.out.println(httpSession.getAttribute("role"));
     }
 
-    @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        req.setCharacterEncoding(DBHelper.getProperties().getProperty("characterEncoding"));
-        HttpSession httpSession = req.getSession();
-        httpSession.setAttribute("role", null);
-        httpSession.invalidate();
-        req.getRequestDispatcher("authorization.jsp").forward(req, resp);
-    }
+//    @Override
+//    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+//        req.setCharacterEncoding(DBHelper.getProperties().getProperty("characterEncoding"));
+//        HttpSession httpSession = req.getSession(false);
+//        System.out.println("Не работает!");
+//        httpSession.removeAttribute("role");
+//        //httpSession.invalidate();
+//        req.getRequestDispatcher("authorization.jsp").forward(req, resp);
+//    }
 }
 

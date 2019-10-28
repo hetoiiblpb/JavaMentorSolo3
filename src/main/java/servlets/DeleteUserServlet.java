@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@WebServlet("/deleteUser")
+@WebServlet("/admin/deleteUser")
 public class DeleteUserServlet extends HttpServlet {
     UserService userService = UserService.getInstance();
 
@@ -26,7 +26,7 @@ public class DeleteUserServlet extends HttpServlet {
             req.setAttribute("mail", user.getEmail());
             req.setAttribute("age", user.getAge());
             req.setAttribute("role", user.getRole());
-            req.getRequestDispatcher("deleteUser.jsp").forward(req, resp);
+            req.getRequestDispatcher(req.getContextPath().concat("/").concat("deleteUser.jsp")).forward(req, resp);
             resp.setStatus(HttpServletResponse.SC_OK);
         } catch (DBException e) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -42,7 +42,7 @@ public class DeleteUserServlet extends HttpServlet {
             Long id = Long.parseLong(req.getParameter("id"));
             if (userService.deleteUser(id)) {
                 resp.setStatus(HttpServletResponse.SC_OK);
-                resp.sendRedirect("/allUsers");
+                resp.sendRedirect("/admin");
             }
         } catch (DBException e) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);

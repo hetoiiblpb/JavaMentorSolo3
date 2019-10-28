@@ -7,7 +7,7 @@
 <body>
 <h1>Добавление пользователя</h1>
 <h5 style="color: red">${message1} </h5>
-<form action="/addUser" method="post">
+<form action="/admin/addUser" method="post">
     <table style=" width: 10%; border: 4px double black;">
         <tr>
             <td>Имя</td>
@@ -31,7 +31,7 @@
         </tr>
     </table>
 </form>
-<form action="/allUsers" method="get"><input type="submit" value="Отмена"></form>
+<form action="/admin" method="get"><input type="submit" value="Отмена"></form>
 </body>
 </html>
 
