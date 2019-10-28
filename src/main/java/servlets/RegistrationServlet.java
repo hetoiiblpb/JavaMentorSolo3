@@ -35,7 +35,7 @@ public class RegistrationServlet extends HttpServlet {
         try {
             if (userService.addUser(new User(name, password, email, age))) {
                 resp.setStatus(HttpServletResponse.SC_OK);
-                req.setAttribute("nameForHello", name);
+                req.setAttribute("name", name);
                 resp.sendRedirect("/helloUser");
             } else {
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);

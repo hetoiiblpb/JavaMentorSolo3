@@ -54,9 +54,9 @@ public class HelloUserServlet extends HttpServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         req.setCharacterEncoding(DBHelper.getProperties().getProperty("characterEncoding"));
         HttpSession httpSession = req.getSession();
-        System.out.println(httpSession.getAttribute("name"));
+        httpSession.setAttribute("role", null);
         httpSession.invalidate();
-        resp.sendRedirect("/authorization");
+        req.getRequestDispatcher("authorization.jsp").forward(req, resp);
     }
 }
 

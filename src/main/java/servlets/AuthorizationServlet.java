@@ -35,7 +35,7 @@ public class AuthorizationServlet extends HttpServlet {
             User user = userService.verifyUserPassword(name, password);
             if (user != null) {
                 resp.setStatus(HttpServletResponse.SC_OK);
-                HttpSession httpSession = req.getSession();
+                HttpSession httpSession = req.getSession(true);
                 httpSession.setAttribute("role", user.getRole());
                 httpSession.setAttribute("id", user.getId());
                 httpSession.setAttribute("name", user.getName());
@@ -62,7 +62,6 @@ public class AuthorizationServlet extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         HttpSession httpSession = req.getSession();
-        System.out.println(httpSession.getAttribute("name"));
         httpSession.invalidate();
         resp.sendRedirect("/authorization");
     }
