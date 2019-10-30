@@ -59,13 +59,6 @@ public class AuthorizationServlet extends HttpServlet {
         }
     }
 
-//    @Override
-//    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-//        HttpSession httpSession = req.getSession(false);
-//        httpSession.removeAttribute("role");
-//        httpSession.removeAttribute("id");
-//        httpSession.removeAttribute("name");
-//        resp.sendRedirect("/authorization");
-//    }
+
 }
 

@@ -35,7 +35,7 @@ public class AddUserServlet extends HttpServlet {
         try {
             if (userService.addUser(new User(name, password, mail, age))) {
                 resp.setStatus(HttpServletResponse.SC_OK);
-                resp.sendRedirect("/allUsers");
+                req.getRequestDispatcher(req.getContextPath().concat("/").concat("allUsers.jsp")).forward(req, resp);
             } else {
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 req.getRequestDispatcher(req.getContextPath().concat("/").concat("addUser.jsp")).forward(req, resp);

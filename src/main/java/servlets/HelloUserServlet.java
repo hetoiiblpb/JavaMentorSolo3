@@ -30,17 +30,7 @@ public class HelloUserServlet extends HttpServlet {
         System.out.println(httpSession.getAttribute("role"));
         httpSession.removeAttribute("role");
         resp.sendRedirect("/authorization");
-        // System.out.println(httpSession.getAttribute("role"));
     }
 
-//    @Override
-//    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-//        req.setCharacterEncoding(DBHelper.getProperties().getProperty("characterEncoding"));
-//        HttpSession httpSession = req.getSession(false);
-//        System.out.println("Не работает!");
-//        httpSession.removeAttribute("role");
-//        //httpSession.invalidate();
-//        req.getRequestDispatcher("authorization.jsp").forward(req, resp);
-//    }
 }
 
