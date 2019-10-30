@@ -31,7 +31,7 @@ public class UpdateUserServlet extends HttpServlet {
                 resp.sendRedirect("/admin");
             } else {
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                req.getRequestDispatcher("updateUser.jsp").forward(req, resp);
+                req.getRequestDispatcher(req.getContextPath().concat("/").concat("updateUser.jsp")).forward(req, resp);
             }
         } catch (DBException e) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
